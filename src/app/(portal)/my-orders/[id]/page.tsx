@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getOrderStatusClass } from '@/lib/mock-db';
 import { getOrderById, getOrderLines } from '@/lib/mock-store';
@@ -16,11 +16,11 @@ function getStepIndex(status: string): number {
 }
 
 export default function OrderDetailPage() {
-  const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const id = params.id as string;
 
-  const order = id ? getOrderById(id as string) : undefined;
-  const lines = id ? getOrderLines(id as string) : [];
+  const order = id ? getOrderById(id) : undefined;
+  const lines = id ? getOrderLines(id) : [];
 
   if (!order) {
     return (

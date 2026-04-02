@@ -1,24 +1,24 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getTicketStatusLabel, getTicketStatusClass, getTicketPriority, getTicketCategory } from '@/lib/mock-db';
 import { getTicketById, getReplies, addReply } from '@/lib/mock-store';
 import type { Reply } from '@/lib/mock-store';
 
 export default function SupportDetailPage() {
-  const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const id = params.id as string;
   const [newReply, setNewReply] = useState('');
   const [replies, setReplies] = useState<Reply[]>([]);
   const [sending, setSending] = useState(false);
 
-  const ticket = id ? getTicketById(id as string) : undefined;
+  const ticket = id ? getTicketById(id) : undefined;
 
   const loadReplies = useCallback(() => {
     if (id) {
-      setReplies(getReplies(id as string));
+      setReplies(getReplies(id));
     }
   }, [id]);
 
@@ -30,7 +30,7 @@ export default function SupportDetailPage() {
     if (!newReply.trim() || !id) return;
     setSending(true);
     await new Promise(r => setTimeout(r, 600));
-    addReply(id as string, newReply.trim());
+    addReply(id, newReply.trim());
     setNewReply('');
     loadReplies();
     setSending(false);

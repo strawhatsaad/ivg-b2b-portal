@@ -1,12 +1,12 @@
 'use client';
 
-import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { getOrderById, getOrderLines } from '@/lib/mock-store';
 
 export default function OrderConfirmationPage() {
-  const router = useRouter();
-  const orderId = router.query.id as string;
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get('id') || '';
   const order = orderId ? getOrderById(orderId) : undefined;
   const lines = orderId ? getOrderLines(orderId) : [];
 

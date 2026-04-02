@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { MOCK_PRODUCTS, MOCK_ORDERS } from '@/lib/mock-db';
 import { createOrder } from '@/lib/mock-store';
 
@@ -25,11 +25,10 @@ export default function PlaceOrderPage() {
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
   const ITEMS_PER_PAGE = 6;
 
-  // Filter products by search query BEFORE grouping
   const filteredProducts = useMemo(() => {
     if (!searchQuery.trim()) return MOCK_PRODUCTS;
     const q = searchQuery.toLowerCase();
-    return MOCK_PRODUCTS.filter(p => 
+    return MOCK_PRODUCTS.filter(p =>
       p.name.toLowerCase().includes(q) ||
       (p.ivg_flavour && p.ivg_flavour.toLowerCase().includes(q)) ||
       (p.productnumber && p.productnumber.toLowerCase().includes(q)) ||
@@ -37,7 +36,6 @@ export default function PlaceOrderPage() {
     );
   }, [searchQuery]);
 
-  // Group filtered products by product line
   const productLines = useMemo(() => {
     const groups: Record<string, typeof MOCK_PRODUCTS> = {};
     filteredProducts.forEach(p => {
@@ -50,7 +48,7 @@ export default function PlaceOrderPage() {
 
   const productLineEntries = useMemo(() => Object.entries(productLines), [productLines]);
   const totalPages = Math.ceil(productLineEntries.length / ITEMS_PER_PAGE);
-  
+
   const currentProductLines = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     return productLineEntries.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -58,7 +56,6 @@ export default function PlaceOrderPage() {
 
   const autocompleteOptions = useMemo(() => {
     if (!searchQuery.trim() || filteredProducts.length === 0) return [];
-    // If the top exact match is identical to what they typed, they don't need options
     if (filteredProducts.length === 1 && filteredProducts[0].name.toLowerCase() === searchQuery.toLowerCase()) {
       return [];
     }
@@ -96,7 +93,6 @@ export default function PlaceOrderPage() {
   };
 
   const nextPONumber = useMemo(() => {
-    // Find highest trailing number in MOCK_ORDERS
     const pos = MOCK_ORDERS.map(o => o.ivg_ponumber).filter(Boolean) as string[];
     let maxNum = 0;
     pos.forEach(po => {
@@ -137,16 +133,16 @@ export default function PlaceOrderPage() {
       <div className="order-layout">
         {/* Product Catalog */}
         <div className="order-catalog">
-          
+
           <div className="catalog-search-container">
             <div className="search-input-wrapper">
               <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
-              <input 
-                type="text" 
-                className="ivg-input search-input" 
+              <input
+                type="text"
+                className="ivg-input search-input"
                 placeholder="Search products by flavor, name, or SKU..."
                 value={searchQuery}
                 onChange={e => {
@@ -160,8 +156,8 @@ export default function PlaceOrderPage() {
             {isSearchFocused && autocompleteOptions.length > 0 && (
               <ul className="autocomplete-dropdown">
                 {autocompleteOptions.map(option => (
-                  <li 
-                    key={option.productid} 
+                  <li
+                    key={option.productid}
                     onClick={() => {
                       setSearchQuery(option.name);
                       setCurrentPage(1);
@@ -180,7 +176,7 @@ export default function PlaceOrderPage() {
           <div className="product-tile-grid">
             {productLineEntries.length === 0 ? (
               <div className="empty-catalog-state" style={{ padding: '64px 24px', textAlign: 'center', gridColumn: '1 / -1' }}>
-                <p className="text-secondary" style={{ marginBottom: 16 }}>No products found matching "{searchQuery}"</p>
+                <p className="text-secondary" style={{ marginBottom: 16 }}>No products found matching &quot;{searchQuery}&quot;</p>
                 <button className="ivg-btn ivg-btn--secondary" onClick={() => { setSearchQuery(''); setCurrentPage(1); }}>Clear Search</button>
               </div>
             ) : currentProductLines.map(([lineName, products]) => {
@@ -188,8 +184,8 @@ export default function PlaceOrderPage() {
                 <div className="product-tile" key={lineName}>
                   <div className="tile-image-placeholder">
                     {!imageErrors.has(lineName) ? (
-                      <img 
-                        src={`/products/${lineName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}.png`} 
+                      <img
+                        src={`/products/${lineName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')}.png`}
                         alt={lineName}
                         style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                         onError={() => setImageErrors(prev => new Set(prev).add(lineName))}
@@ -258,16 +254,16 @@ export default function PlaceOrderPage() {
 
           {totalPages > 1 && (
             <div className="pagination-controls">
-              <button 
-                className="ivg-btn ivg-btn--secondary" 
+              <button
+                className="ivg-btn ivg-btn--secondary"
                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                 disabled={currentPage === 1}
               >
                 Previous
               </button>
               <span className="pagination-indicator">Page {currentPage} of {totalPages}</span>
-              <button 
-                className="ivg-btn ivg-btn--secondary" 
+              <button
+                className="ivg-btn ivg-btn--secondary"
                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                 disabled={currentPage === totalPages}
               >
@@ -314,11 +310,11 @@ export default function PlaceOrderPage() {
             <div className="summary-fields">
               <div className="ivg-form-group">
                 <label>PO Number</label>
-                <input 
-                  className="ivg-input" 
-                  value={nextPONumber} 
-                  readOnly 
-                  style={{ backgroundColor: 'var(--ivg-surface-container-low)', color: 'var(--ivg-secondary)', cursor: 'not-allowed', border: '1px solid transparent' }} 
+                <input
+                  className="ivg-input"
+                  value={nextPONumber}
+                  readOnly
+                  style={{ backgroundColor: 'var(--ivg-surface-container-low)', color: 'var(--ivg-secondary)', cursor: 'not-allowed', border: '1px solid transparent' }}
                 />
               </div>
               <div className="ivg-form-group">

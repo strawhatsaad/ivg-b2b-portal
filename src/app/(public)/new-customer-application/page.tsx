@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const STEPS = ['Company Details', 'Delivery Address', 'Billing Details', 'Bank & Signatory'];
 
@@ -9,7 +9,6 @@ export default function NewCustomerApplicationPage() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState({
-    // Company
     companyName: 'Devsinc Distribution Ltd',
     vatNumber: 'GB123456789',
     companiesHouseNo: '12345678',
@@ -17,17 +16,14 @@ export default function NewCustomerApplicationPage() {
     companyCity: 'London',
     companyCounty: 'Greater London',
     companyPostcode: 'EC1A 1BB',
-    // Delivery
     deliveryStreet: '45 Warehouse Lane',
     deliveryCity: 'Manchester',
     deliveryCounty: 'Greater Manchester',
     deliveryPostcode: 'M1 2AB',
-    // Billing
     billingStreet: '123 Business Park',
     billingCity: 'London',
     billingCounty: 'Greater London',
     billingPostcode: 'EC1A 1BB',
-    // Bank & Signatory
     bankAccountName: 'Devsinc Distribution Ltd',
     signatoryName: 'Saad Anjum',
     signedBehalfOf: 'Devsinc Distribution Ltd',

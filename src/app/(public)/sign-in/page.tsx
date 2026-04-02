@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { login } from '@/lib/auth-actions';
@@ -9,8 +9,9 @@ import { login } from '@/lib/auth-actions';
 export default function SignInPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [signingIn, setSigningIn] = useState(false);
-  const returnUrl = (router.query.returnUrl as string) || '/dashboard';
+  const returnUrl = searchParams.get('returnUrl') || '/dashboard';
 
   useEffect(() => {
     if (!loading && user) {

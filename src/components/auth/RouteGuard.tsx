@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 
 interface RouteGuardProps {
@@ -11,12 +11,13 @@ interface RouteGuardProps {
 export function RouteGuard({ children }: RouteGuardProps) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!loading && !user) {
-      router.replace('/sign-in?returnUrl=' + encodeURIComponent(router.asPath));
+      router.replace('/sign-in?returnUrl=' + encodeURIComponent(pathname));
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, pathname]);
 
   if (loading) {
     return (

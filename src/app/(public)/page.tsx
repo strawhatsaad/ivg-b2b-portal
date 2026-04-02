@@ -2,6 +2,8 @@
 
 import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
 // ──────────────────────────────────────────────────────────
 // Magnetic Button Component for Premium Interactive Feel
@@ -9,33 +11,30 @@ import Link from 'next/link';
 const MagneticButton = ({ children, className, href }: { children: React.ReactNode, className: string, href: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLAnchorElement>(null);
-  
+
   useEffect(() => {
     // Only apply magnetic effect on devices with pointers (desktops)
     if (window.matchMedia("(any-hover: hover)").matches) {
       let xTo: any, yTo: any;
-      
+
       // Dynamically import GSAP
       import('gsap').then(({ default: gsap }) => {
         if (!textRef.current) return;
         xTo = gsap.quickTo(textRef.current, "x", { duration: 1, ease: "elastic.out(1, 0.3)" });
         yTo = gsap.quickTo(textRef.current, "y", { duration: 1, ease: "elastic.out(1, 0.3)" });
       });
-      
+
       const handleMouseMove = (e: MouseEvent) => {
         if (!containerRef.current || !xTo || !yTo) return;
         const { clientX, clientY } = e;
         const { height, width, left, top } = containerRef.current.getBoundingClientRect();
-        // Calculate center of button
         const x = clientX - (left + width / 2);
         const y = clientY - (top + height / 2);
-        // Move inner button towards cursor (subtle dampen multiplier)
         xTo(x * 0.15);
         yTo(y * 0.15);
       };
 
       const handleMouseLeave = () => {
-        // Reset position
         if (xTo) xTo(0);
         if (yTo) yTo(0);
       };
@@ -43,7 +42,7 @@ const MagneticButton = ({ children, className, href }: { children: React.ReactNo
       const container = containerRef.current;
       container?.addEventListener("mousemove", handleMouseMove);
       container?.addEventListener("mouseleave", handleMouseLeave);
-      
+
       return () => {
         container?.removeEventListener("mousemove", handleMouseMove);
         container?.removeEventListener("mouseleave", handleMouseLeave);
@@ -60,10 +59,6 @@ const MagneticButton = ({ children, className, href }: { children: React.ReactNo
   );
 };
 
-
-import { useRouter } from 'next/router';
-import { useAuth } from '@/hooks/useAuth';
-
 export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -79,7 +74,6 @@ export default function Home() {
   const scrubTextRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    // Store timeline and trigger references for graceful cleanup
     let timeline: any = null;
     let triggers: any[] = [];
 
@@ -90,7 +84,6 @@ export default function Home() {
         gsap.registerPlugin(ScrollTrigger);
 
         let ctx = gsap.context(() => {
-          // 1. Hero Reveal Animation (Stagger In)
           timeline = gsap.timeline();
           timeline.from('.hero-content > *', {
             y: 100,
@@ -101,7 +94,6 @@ export default function Home() {
             delay: 0.1
           });
 
-          // 2. Hero Scrub Fade Out (As you scroll away)
           triggers.push(
             ScrollTrigger.create({
               animation: gsap.to(heroRef.current, {
@@ -117,7 +109,6 @@ export default function Home() {
             })
           );
 
-          // 3. Advanced Scrub Text Highlighting (opacity-based — theme-proof)
           if (scrubTextRef.current) {
             const chars = scrubTextRef.current.querySelectorAll('.scrub-word');
 
@@ -136,11 +127,10 @@ export default function Home() {
             );
           }
 
-          // 4. Standalone Parallax Timeline Image
           triggers.push(
             ScrollTrigger.create({
               animation: gsap.to('.timeline-parallax-bg', {
-                yPercent: 30, // Moves down as you scroll down
+                yPercent: 30,
                 ease: 'none',
               }),
               trigger: '.timeline-section',
@@ -150,7 +140,6 @@ export default function Home() {
             })
           );
 
-          // 5. Floating Bento Features (Continuous Parallax based on speed/position)
           const cards = gsap.utils.toArray('.feature-card');
           cards.forEach((card: any) => {
             triggers.push(
@@ -162,13 +151,13 @@ export default function Home() {
                   ease: 'expo.out',
                 }),
                 trigger: card,
-                start: 'top 85%', // Trigger slightly earlier so it's fully visible
-                toggleActions: 'play none none reverse' // Animates out if they scroll back up
+                start: 'top 85%',
+                toggleActions: 'play none none reverse'
               })
             );
           });
-        }, container); // scoping all selections to the component root container
-        
+        }, container);
+
         return () => ctx.revert();
       } catch (err) {
         console.warn('GSAP initialization dropped by container cleanup:', err);
@@ -183,14 +172,13 @@ export default function Home() {
     };
   }, []);
 
-  // A statement text array for the highlight sequence
   const scrubString = "We engineer premium e-liquids defining the modern global vaping experience. Quality, consistency, and unparalleled flavour profiles for wholesale distribution in over 100 countries.";
   const words = scrubString.split(' ');
 
   return (
     <div className="home-landing" ref={container}>
-      
-      {/* 1. Hero Section — Full-bleed video */}
+
+      {/* 1. Hero Section */}
       <section className="hero-section">
         <video
           className="hero-video"
@@ -232,7 +220,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Standalone Parallax Timeline using provided asset */}
+      {/* 3. Standalone Parallax Timeline */}
       <section className="timeline-section">
         <img src="/ivg-timeline.png" alt="IVG Timeline" className="timeline-parallax-bg" />
       </section>
@@ -240,7 +228,6 @@ export default function Home() {
       {/* 4. Bento Features Grid */}
       <section className="features-section">
         <div className="features-grid">
-          
           <div className="feature-card">
             <div className="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
@@ -248,7 +235,6 @@ export default function Home() {
             <h3>Premium Inventory Access</h3>
             <p>Direct allocations of high-demand e-liquids, disposables, and hardware, shipped directly from our primary distribution hubs.</p>
           </div>
-
           <div className="feature-card">
             <div className="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
@@ -256,7 +242,6 @@ export default function Home() {
             <h3>Architectural Dashboard</h3>
             <p>Manage credit limits, utilize dynamic reporting, and monitor order volume analytics instantly.</p>
           </div>
-
           <div className="feature-card">
              <div className="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
@@ -264,15 +249,13 @@ export default function Home() {
             <h3>Tiered Credit Accounts</h3>
             <p>Seamless net-30 payment options strictly configured for verified compliance partners globally.</p>
           </div>
-
           <div className="feature-card">
             <div className="feature-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
             <h3>Intelligent Forecasting</h3>
-            <p>Predictive analytics alerting you to restock quantities before seasonal surges affect your region's supply chain.</p>
+            <p>Predictive analytics alerting you to restock quantities before seasonal surges affect your region&apos;s supply chain.</p>
           </div>
-
         </div>
       </section>
 

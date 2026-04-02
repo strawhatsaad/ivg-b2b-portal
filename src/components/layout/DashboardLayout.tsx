@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { logout } from '@/lib/auth-actions';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -65,8 +65,7 @@ function NavIcon({ name }: { name: string }) {
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  const router = useRouter();
-  const pathname = router.pathname;
+  const pathname = usePathname();
 
   const isActive = (href: string) => {
     if (href === '/dashboard') return pathname === '/dashboard';

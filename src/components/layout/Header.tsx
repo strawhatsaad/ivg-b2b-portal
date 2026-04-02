@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { logout } from '@/lib/auth-actions';
 import Image from 'next/image';
@@ -13,8 +13,7 @@ interface HeaderProps { publicNav: NavItem[]; authNav: NavItem[]; }
 
 export function Header({ publicNav, authNav }: HeaderProps) {
   const { user, loading } = useAuth();
-  const router = useRouter();
-  const pathname = router.pathname;
+  const pathname = usePathname();
   const [annDismissed, setAnnDismissed] = useState(true); // default hidden until mounted
   const [mobileOpen, setMobileOpen] = useState(false);
 
