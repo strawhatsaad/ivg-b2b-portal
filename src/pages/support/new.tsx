@@ -43,7 +43,7 @@ export default function NewSupportCasePage() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
             Back to Support
           </Link>
-          <h1>Create New Case</h1>
+          <h1>Create Support Ticket</h1>
           <p className="text-secondary">Submit a support request and our team will respond within 4 hours.</p>
         </div>
       </header>

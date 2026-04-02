@@ -144,7 +144,7 @@ export default function DashboardPage() {
         {/* Support Cases */}
         <section className="dash-card dash-card--support">
           <div className="dash-card-header">
-            <h3 className="dash-card-title">Support Cases</h3>
+            <h3 className="dash-card-title">Support Tickets</h3>
             <Link href="/support" className="open-cases-count">
               {openTickets.length}
             </Link>

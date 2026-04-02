@@ -25,7 +25,7 @@ export default function SupportPage() {
           <p className="text-secondary">Enterprise-grade assistance and technical oversight for your distribution workflows.</p>
         </div>
         <Link href="/support/new" className="ivg-btn ivg-btn--primary">
-          Create New Case
+          Create Support Ticket
         </Link>
       </header>
 
