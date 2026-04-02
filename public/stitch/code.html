@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IVG PORTAL - B2B Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#e3e2e2",
+              "primary": "#bb0011",
+              "outline": "#926e6a",
+              "on-tertiary-fixed": "#1a1c1c",
+              "on-surface-variant": "#5e3f3b",
+              "surface-container-high": "#eae7e7",
+              "on-tertiary-fixed-variant": "#464747",
+              "on-background": "#1b1c1c",
+              "tertiary-fixed-dim": "#c7c6c6",
+              "surface-container-low": "#f6f3f2",
+              "secondary-fixed": "#e5e2e1",
+              "on-primary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "outline-variant": "#e8bcb7",
+              "surface-container-highest": "#e5e2e1",
+              "error": "#ba1a1a",
+              "secondary": "#5f5e5e",
+              "on-primary-fixed": "#410002",
+              "inverse-surface": "#303030",
+              "on-secondary-fixed-variant": "#474746",
+              "primary-container": "#e61920",
+              "surface-dim": "#dcd9d9",
+              "on-tertiary-container": "#fdfcfc",
+              "tertiary": "#5b5c5c",
+              "primary-fixed-dim": "#ffb4ab",
+              "on-error-container": "#93000a",
+              "surface-bright": "#fcf9f8",
+              "surface-container": "#f0eded",
+              "secondary-fixed-dim": "#c8c6c5",
+              "on-secondary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-container": "#636262",
+              "on-primary-fixed-variant": "#93000b",
+              "surface-tint": "#c00012",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e5e2e1",
+              "inverse-primary": "#ffb4ab",
+              "tertiary-container": "#747475",
+              "on-surface": "#1b1c1c",
+              "primary-fixed": "#ffdad6",
+              "on-primary-container": "#fffbff",
+              "inverse-on-surface": "#f3f0ef",
+              "background": "#fcf9f8",
+              "on-secondary-fixed": "#1b1c1c",
+              "on-error": "#ffffff",
+              "surface": "#fcf9f8",
+              "secondary-container": "#e2dfde"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-border-tonal-layering { border: none !important; }
+      body { font-family: 'Inter', sans-serif; }
+      h1, h2, h3, .font-manrope { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-white">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 max-w-full bg-[#ffffffcc] dark:bg-[#1b1c1ccc] backdrop-blur-md shadow-sm dark:shadow-none no-border-tonal-layering">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#bb0011] dark:text-[#e61920] cursor-pointer" data-icon="grid_view">grid_view</span>
+<span class="text-2xl font-black tracking-tighter text-[#bb0011] dark:text-[#e61920] font-manrope">IVG PORTAL</span>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8">
+<a class="text-sm font-bold font-inter text-[#bb0011] dark:text-[#e61920]" href="#">Dashboard</a>
+<a class="text-sm font-medium font-inter text-[#5f5e5e] dark:text-[#eae7e7] hover:bg-[#f6f3f2] dark:hover:bg-[#1b1c1c] transition-colors px-2 py-1 rounded" href="#">Orders</a>
+<a class="text-sm font-medium font-inter text-[#5f5e5e] dark:text-[#eae7e7] hover:bg-[#f6f3f2] dark:hover:bg-[#1b1c1c] transition-colors px-2 py-1 rounded" href="#">Support</a>
+</nav>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User profile avatar" data-alt="Close up portrait of a professional businessman in a tailored suit, neutral office lighting, high-end corporate photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiySi_vunYb5W6Kf_mgUz7nY9LipfYR7k_esje4ugnUqFijsZVkg5m-HUveT2n6DEOOKByYMv-ygIxmVoWKhNM1tC0YmytpBDtq2tEhtYD5-QROpusWOupL5XaFRg7aeFfLpzXTUSy7bG65eMa_uKq7D9hJLP3FI6qDhHN8GZCMkOaDjWbcCN0stxFgmojBCzkooHguM1WOMS7PMoefr14PwG4PL99aEOqIKgMBZNcrUZLSK3y7Tmasfvrx8FKs8gCI8iRtaDyOK-M"/>
+</div>
+</div>
+</header>
+<!-- NavigationDrawer (Sidebar) -->
+<aside class="hidden md:flex flex-col h-screen fixed left-0 top-0 pt-20 w-64 bg-[#f6f3f2] dark:bg-[#1b1c1c] no-shadow border-r-0 z-40">
+<div class="px-8 mb-8 mt-4">
+<div class="flex flex-col gap-1">
+<p class="font-manrope font-semibold text-lg text-on-surface">IVG Partner</p>
+<p class="text-xs text-secondary font-medium uppercase tracking-widest">B2B Account</p>
+<div class="mt-2 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs text-primary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold text-primary">Verified</span>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-1 flex-1">
+<a class="flex items-center gap-4 bg-white dark:bg-[#2c2d2d] text-[#bb0011] rounded-l-full ml-4 pl-4 py-3 font-bold transition-all duration-200 translate-x-1" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 text-[#5f5e5e] dark:text-[#eae7e7] px-8 py-3 hover:text-[#bb0011] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-manrope">Orders</span>
+</a>
+<a class="flex items-center gap-4 text-[#5f5e5e] dark:text-[#eae7e7] px-8 py-3 hover:text-[#bb0011] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+<span class="font-manrope">Support Cases</span>
+</a>
+<a class="flex items-center gap-4 text-[#5f5e5e] dark:text-[#eae7e7] px-8 py-3 hover:text-[#bb0011] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-manrope">Credit Account</span>
+</a>
+<a class="flex items-center gap-4 text-[#5f5e5e] dark:text-[#eae7e7] px-8 py-3 hover:text-[#bb0011] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-manrope">Inventory</span>
+</a>
+<div class="mt-auto pb-8">
+<a class="flex items-center gap-4 text-[#5f5e5e] dark:text-[#eae7e7] px-8 py-3 hover:text-[#bb0011] transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-manrope">Settings</span>
+</a>
+</div>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-12 px-6 md:px-12 min-h-screen bg-surface">
+<!-- Welcome Section (Asymmetric Header) -->
+<header class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="max-w-2xl">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest">Verified Partner</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface font-manrope">Welcome back, <span class="text-primary">Alex Thompson</span></h1>
+<p class="mt-4 text-secondary text-lg font-body leading-relaxed">Your business portal is updated with the latest Q4 logistics data. Manage your inventory and wholesale requests below.</p>
+</div>
+<div class="flex gap-4">
+<button class="bg-surface-container-highest text-on-surface px-6 py-3 rounded-xl font-bold font-label hover:bg-surface-container-high transition-all active:scale-95">Download Reports</button>
+</div>
+</header>
+<!-- Dashboard Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Hero Bulk Order Card -->
+<section class="md:col-span-8 bg-surface-container-lowest rounded-full p-1 group cursor-pointer overflow-hidden shadow-sm">
+<div class="relative h-64 md:h-80 rounded-full overflow-hidden">
+<img alt="Warehouse operations" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Symmetric view of modern high-tech warehouse with red industrial shelves and organized boxes, cinematic lighting, sharp focus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMf4hS0gUE7Tkx8xiBmpDWvMELLN5DHATUFYbNvoK9HlyFqvULMEeNkHDVgDyFmS17xxcs6Av0oFy2ErE55Iv__QLtEVLXYsNuLy6GM3XZuQLU0AREbHvTEbt71uBSybGFN4D2YmSQqpbsiCxh8QVklzC8UzPUbJlEGCntrDsP14xBGQcUENPfBc6ZYnULakoni0xcYloj7E1fhUabmE37p41vRNKWKXJVLzlo_Oiyeql1XWRIxUBxY0wnyzan2_opeHoiqsIOO53Z"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary-container/40 flex flex-col justify-center px-12 text-white">
+<span class="text-xs font-bold uppercase tracking-[0.3em] mb-2 opacity-80">Inventory Management</span>
+<h2 class="text-3xl md:text-4xl font-black font-manrope mb-4">New Bulk Order</h2>
+<p class="max-w-md text-sm md:text-base mb-8 font-body font-medium opacity-90 leading-relaxed">Access wholesale pricing and priority shipping for bulk inventory restocking across all regions.</p>
+<div>
+<button class="bg-white text-primary px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-lg transition-all active:scale-95">Start Order</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Credit Account Status -->
+<section class="md:col-span-4 bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-low rounded-2xl">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="more_vert">more_vert</span>
+</div>
+<p class="text-secondary text-xs font-bold uppercase tracking-widest mb-1">Available Credit</p>
+<h3 class="text-3xl font-black text-on-surface font-manrope">£24,500.00</h3>
+</div>
+<div class="mt-8">
+<div class="flex justify-between text-xs font-bold mb-2">
+<span class="text-secondary">Utilization</span>
+<span class="text-on-surface">49%</span>
+</div>
+<div class="w-full h-3 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-primary-container w-[49%]"></div>
+</div>
+<div class="mt-4 flex justify-between items-center text-xs">
+<span class="text-secondary">Total Limit: <span class="text-on-surface font-bold">£50,000</span></span>
+<a class="text-primary font-bold hover:underline" href="#">View History</a>
+</div>
+</div>
+</section>
+<!-- Onboarding & Analytics Row -->
+<section class="md:col-span-4 bg-surface-container-low p-8 rounded-[2rem]">
+<h3 class="text-xl font-bold font-manrope mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="task_alt">task_alt</span>
+                    Onboarding Progress
+                </h3>
+<ul class="space-y-4">
+<li class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="check">check</span>
+</div>
+<span class="text-sm font-semibold text-on-surface">Business Verification</span>
+</li>
+<li class="flex items-center gap-4 bg-surface-container-lowest p-4 rounded-2xl">
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm" data-icon="check">check</span>
+</div>
+<span class="text-sm font-semibold text-on-surface">Tax Documentation</span>
+</li>
+<li class="flex items-center gap-4 border border-dashed border-outline-variant/30 p-4 rounded-2xl opacity-70">
+<div class="w-6 h-6 rounded-full border-2 border-secondary flex items-center justify-center"></div>
+<span class="text-sm font-semibold text-secondary">Set Payment Method</span>
+</li>
+</ul>
+</section>
+<!-- Q4 Volume Analytics -->
+<section class="md:col-span-8 bg-surface-container-lowest p-8 rounded-[2rem] flex flex-col">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="text-xl font-bold font-manrope">Q4 Volume Growth</h3>
+<p class="text-secondary text-sm">Performance tracking vs last year</p>
+</div>
+<div class="text-right">
+<div class="flex items-center text-green-600 font-black text-2xl font-manrope">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+                            +12.5%
+                        </div>
+<span class="text-[10px] font-bold text-secondary uppercase">Year-on-Year</span>
+</div>
+</div>
+<!-- Visual Placeholder for Graph -->
+<div class="flex-1 flex items-end gap-2 md:gap-4 px-2 min-h-[150px]">
+<div class="flex-1 bg-surface-container-low rounded-t-xl h-[40%] transition-all hover:h-[45%] hover:bg-primary/10"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-xl h-[55%] transition-all hover:h-[60%] hover:bg-primary/10"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-xl h-[35%] transition-all hover:h-[40%] hover:bg-primary/10"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-xl h-[70%] transition-all hover:h-[75%] hover:bg-primary/10"></div>
+<div class="flex-1 bg-surface-container-low rounded-t-xl h-[65%] transition-all hover:h-[70%] hover:bg-primary/10"></div>
+<div class="flex-1 bg-primary rounded-t-xl h-[85%] transition-all hover:h-[90%] shadow-lg"></div>
+<div class="flex-1 bg-primary/40 rounded-t-xl h-[95%] transition-all hover:h-full border-t-4 border-primary"></div>
+</div>
+<div class="flex justify-between mt-4 text-[10px] font-bold text-secondary uppercase tracking-widest">
+<span>Oct</span><span>Nov</span><span>Dec</span>
+</div>
+</section>
+<!-- Recent Orders Table -->
+<section class="md:col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-[2rem]">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold font-manrope">Recent Orders</h3>
+<button class="text-primary font-bold text-sm hover:underline">See all activity</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-separate border-spacing-y-2">
+<thead>
+<tr class="text-[10px] font-bold text-secondary uppercase tracking-widest">
+<th class="pb-4 px-4">Order ID</th>
+<th class="pb-4">Status</th>
+<th class="pb-4">Date</th>
+<th class="pb-4 text-right px-4">Action</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-xl overflow-hidden group">
+<td class="py-4 px-4 font-bold rounded-l-2xl">#IVG-98442</td>
+<td class="py-4">
+<span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">Shipped</span>
+</td>
+<td class="py-4 text-secondary">Oct 24, 2023</td>
+<td class="py-4 px-4 text-right rounded-r-2xl">
+<button class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" data-icon="visibility">visibility</button>
+</td>
+</tr>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-xl overflow-hidden group">
+<td class="py-4 px-4 font-bold rounded-l-2xl">#IVG-98440</td>
+<td class="py-4">
+<span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">Pending</span>
+</td>
+<td class="py-4 text-secondary">Oct 23, 2023</td>
+<td class="py-4 px-4 text-right rounded-r-2xl">
+<button class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" data-icon="visibility">visibility</button>
+</td>
+</tr>
+<tr class="bg-surface hover:bg-surface-container-low transition-colors rounded-xl overflow-hidden group">
+<td class="py-4 px-4 font-bold rounded-l-2xl">#IVG-98438</td>
+<td class="py-4">
+<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase">Delivered</span>
+</td>
+<td class="py-4 text-secondary">Oct 21, 2023</td>
+<td class="py-4 px-4 text-right rounded-r-2xl">
+<button class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" data-icon="visibility">visibility</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Support Cases -->
+<section class="md:col-span-12 lg:col-span-4 bg-surface-container-low p-8 rounded-[2rem]">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-bold font-manrope">Support Cases</h3>
+<span class="bg-primary text-white w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold">2</span>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest p-5 rounded-2xl hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-black uppercase text-red-600 bg-red-50 px-2 py-0.5 rounded">High Priority</span>
+<span class="text-xs text-secondary">#SC-229</span>
+</div>
+<p class="text-sm font-bold text-on-surface mb-1">Stock discrepancies in North Hub</p>
+<p class="text-xs text-secondary line-clamp-2 font-medium">Reporting a variance of 45 units in the last bulk shipment received on Monday...</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl hover:shadow-md transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="text-[10px] font-black uppercase text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Medium</span>
+<span class="text-xs text-secondary">#SC-215</span>
+</div>
+<p class="text-sm font-bold text-on-surface mb-1">Billing cycle update request</p>
+<p class="text-xs text-secondary line-clamp-2 font-medium">Client is requesting to move from Net-30 to Net-60 terms for the new fiscal year...</p>
+</div>
+<button class="w-full py-4 border-2 border-dashed border-outline-variant/50 rounded-2xl text-secondary text-sm font-bold hover:bg-surface-container-highest transition-all">
+                        + Open New Case
+                    </button>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white dark:bg-[#1b1c1c] rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.05)] border-t-0 tonal-shift-bg-surface-container-low">
+<a class="flex flex-col items-center justify-center text-[#bb0011] dark:text-[#e61920] scale-110" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold font-inter uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5f5e5e] dark:text-[#8e8d8d] opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="text-[10px] font-bold font-inter uppercase tracking-widest mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5f5e5e] dark:text-[#8e8d8d] opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="text-[10px] font-bold font-inter uppercase tracking-widest mt-1">Support</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#5f5e5e] dark:text-[#8e8d8d] opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] font-bold font-inter uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

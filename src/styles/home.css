@@ -1,0 +1,262 @@
+/* =========================================================================
+   ADVANCED GSAP HOME/LANDING PAGE (PREMIUM DARK GRADE)
+   ========================================================================= */
+
+body {
+  /* Dynamic global background handles everything */
+  overflow-x: hidden;
+}
+
+.home-landing {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  /* Premium radial gradient behind the entire page */
+  background: radial-gradient(circle at 50% 0%, rgba(227, 24, 55, 0.15) 0%, var(--ivg-bg) 60%);
+}
+
+/* ─── 1. Hero Section (Full-bleed video, Scale & Fade Out on Scroll) ─── */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-6);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 1000px;
+  will-change: transform, opacity;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 800;
+  line-height: 0.85;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-6);
+  color: #ffffff;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.hero-title span {
+  display: inline-block;
+}
+
+/* ─── Magnetic CTA Area ─── */
+.hero-ctas {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Base button override for the magnetic wrapper */
+.magnetic-btn-wrapper {
+  display: inline-block;
+  padding: 20px; /* Magnetic catch area expands bounding box */
+  margin: -20px;
+  cursor: pointer;
+}
+
+.magnetic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-decoration: none;
+  transition: box-shadow 0.3s ease;
+  will-change: transform;
+  pointer-events: none; /* Let the wrapper handle the mouse events */
+}
+
+.magnetic-btn--primary {
+  background: linear-gradient(135deg, var(--ivg-primary), var(--ivg-primary-container));
+  color: var(--ivg-white);
+  padding: 16px 36px;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 20px rgba(187, 0, 17, 0.4);
+}
+
+.magnetic-btn--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 16px 36px;
+  font-size: 1.125rem;
+  backdrop-filter: blur(10px);
+}
+
+/* ─── 2. Advanced Scrub Text Section ─── */
+.scrub-section {
+  position: relative;
+  min-height: 120vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10) var(--space-6);
+  z-index: 5;
+}
+
+.scrub-text-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.scrub-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--scrub-glow);
+  font-weight: 800;
+}
+
+.scrub-word {
+  display: inline-block;
+  margin-right: -0.05em; /* Tighter tracking for impact */
+  opacity: 0.2; /* Start dim — GSAP scrubs to opacity: 1 */
+  transition: none;
+}
+
+
+/* ─── 3. Standalone Parallax Timeline Image ─── */
+.timeline-section {
+  position: relative;
+  width: 100%;
+  margin: var(--space-20) 0;
+  overflow: hidden;
+}
+
+.timeline-parallax-bg {
+  display: block;
+  width: 70%;
+  height: auto;
+  margin: 0 auto;
+  will-change: transform;
+  z-index: 0;
+}
+
+
+/* ─── 4. Floating Bento Features Grid ─── */
+.features-section {
+  padding: var(--space-20) var(--space-6);
+  position: relative;
+  z-index: 10;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-6);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  align-items: stretch; /* Ensure cards on same row match height */
+}
+
+.feature-card {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  backdrop-filter: blur(20px);
+  will-change: transform;
+  overflow: hidden;
+}
+
+/* Dynamic sizes for the grid */
+.feature-card:nth-child(1) { grid-column: span 12; min-height: 300px; }
+.feature-card:nth-child(2) { grid-column: span 7; min-height: 400px; }
+.feature-card:nth-child(3) { grid-column: span 5; min-height: 400px; }
+.feature-card:nth-child(4) { grid-column: span 12; min-height: 350px; }
+
+@media (max-width: 900px) {
+  .feature-card { grid-column: span 12 !important; min-height: 250px !important; }
+}
+
+.feature-card h3 {
+  font-size: 2rem;
+  margin-bottom: var(--space-4);
+  color: var(--ivg-fg);
+  max-width: 400px;
+}
+
+.feature-card p {
+  font-size: 1.125rem;
+  color: var(--ivg-secondary);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(227, 24, 55, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-6);
+  color: var(--ivg-primary);
+}
+
+.feature-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* ─── CTA Box ─── */
+.cta-section {
+  padding: var(--space-20) var(--space-6);
+  text-align: center;
+}
+
+.cta-box {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-box h2 {
+  font-size: clamp(3rem, 6vw, 5rem);
+  margin-bottom: var(--space-6);
+  color: var(--accent-text-responsive);
+}
+
+.cta-box p {
+  font-size: 1.25rem;
+  color: var(--ivg-secondary);
+  margin-bottom: var(--space-8);
+}

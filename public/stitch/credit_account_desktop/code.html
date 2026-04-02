@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Credit Account | Vanguard Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-container-high": "#eae7e7",
+                "surface": "#fcf9f8",
+                "on-primary-fixed": "#410002",
+                "surface-container-low": "#f6f3f2",
+                "secondary-container": "#e2dfde",
+                "on-tertiary-container": "#fdfcfc",
+                "on-tertiary": "#ffffff",
+                "on-primary-container": "#fffbff",
+                "on-error": "#ffffff",
+                "on-primary-fixed-variant": "#93000b",
+                "on-surface": "#1b1c1c",
+                "surface-dim": "#dcd9d9",
+                "on-secondary": "#ffffff",
+                "on-background": "#1b1c1c",
+                "on-secondary-fixed": "#1b1c1c",
+                "surface-container-lowest": "#ffffff",
+                "error-container": "#ffdad6",
+                "primary-fixed-dim": "#ffb4ab",
+                "secondary-fixed": "#e5e2e1",
+                "on-error-container": "#93000a",
+                "secondary-fixed-dim": "#c8c6c5",
+                "surface-container-highest": "#e5e2e1",
+                "inverse-on-surface": "#f3f0ef",
+                "on-primary": "#ffffff",
+                "on-surface-variant": "#5e3f3b",
+                "on-secondary-fixed-variant": "#474746",
+                "on-secondary-container": "#636262",
+                "surface-variant": "#e5e2e1",
+                "outline": "#926e6a",
+                "surface-bright": "#fcf9f8",
+                "inverse-surface": "#303030",
+                "on-tertiary-fixed": "#1a1c1c",
+                "secondary": "#5f5e5e",
+                "inverse-primary": "#ffb4ab",
+                "tertiary-container": "#747475",
+                "primary-container": "#e61920",
+                "tertiary-fixed": "#e3e2e2",
+                "tertiary": "#5b5c5c",
+                "tertiary-fixed-dim": "#c7c6c6",
+                "primary": "#bb0011",
+                "background": "#fcf9f8",
+                "outline-variant": "#e8bcb7",
+                "surface-tint": "#c00012",
+                "primary-fixed": "#ffdad6",
+                "on-tertiary-fixed-variant": "#464747",
+                "error": "#ba1a1a",
+                "surface-container": "#f0eded"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #bb0011 0%, #e61920 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #bb0011 0%, #e61920 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface flex min-h-screen">
+<!-- SideNavBar (NavigationDrawer) -->
+<aside class="h-screen sticky left-0 top-0 w-64 bg-[#f6f3f2] dark:bg-stone-950 flex flex-col h-full py-6 pl-4 z-50 shrink-0">
+<div class="mb-10 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-xl overflow-hidden">
+<img alt="Vanguard Logo" class="w-8 h-8 invert" data-alt="Vanguard Architecture professional logo icon with sharp geometric lines in white on a red background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPEUkZET4wIF89DEAxkHFGgxDJ2EISEIK7POsTGvVv83-Vj_qFojnTw93EkrJgAeD7U984dKSlRpD7lR40pQU0g8lJt3BhZqJHiyQGoilcs2vCb6r6yGsudeCIS1QdYliBhfZsNEeENHFAsFRobiMHcAQ1W5UuEJYLMwpGywtFJKQNoeTh6IDN0viQvPl4FE5XRIRZ_sFNj_OXtwQRhSrvoKOfF1mT68-J8icH-EVMHuHBE4ATb6pZ6YPrPW4agNweZeCY362vYSDQ"/>
+</div>
+<div>
+<h1 class="font-['Manrope'] font-bold text-lg text-[#1b1c1c] dark:text-white leading-tight">Vanguard Architecture</h1>
+<p class="text-[10px] uppercase tracking-widest text-secondary font-bold">B2B Enterprise Portal</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active State: Credit Account -->
+<a class="bg-white dark:bg-stone-900 text-[#bb0011] font-bold rounded-l-xl flex items-center px-4 py-3 gap-3 transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-['Inter'] text-sm font-medium">Credit Account</span>
+</a>
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:bg-[#eae7e7] dark:hover:bg-stone-800 flex items-center px-4 py-3 gap-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-['Inter'] text-sm font-medium">Order History</span>
+</a>
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:bg-[#eae7e7] dark:hover:bg-stone-800 flex items-center px-4 py-3 gap-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="font-['Inter'] text-sm font-medium">Support Cases</span>
+</a>
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:bg-[#eae7e7] dark:hover:bg-stone-800 flex items-center px-4 py-3 gap-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Inter'] text-sm font-medium">Inventory</span>
+</a>
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:bg-[#eae7e7] dark:hover:bg-stone-800 flex items-center px-4 py-3 gap-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Inter'] text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-6">
+<button class="w-full btn-primary-gradient text-white py-3 rounded-xl font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+                Download Price List
+            </button>
+<div class="space-y-1">
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:text-[#bb0011] flex items-center gap-3 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-['Inter'] text-sm font-medium">Help Center</span>
+</a>
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:text-[#bb0011] flex items-center gap-3 py-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-['Inter'] text-sm font-medium">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm dark:shadow-none flex justify-between items-center px-8 py-4 w-full">
+<div class="flex items-center gap-8">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary" data-icon="search">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 w-64 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Search orders, transactions..." type="text"/>
+</div>
+<nav class="hidden md:flex items-center gap-6 font-['Manrope'] font-semibold tracking-tight">
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:text-[#bb0011] transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:text-[#bb0011] transition-colors duration-200" href="#">Analytics</a>
+<a class="text-[#5f5e5e] dark:text-[#eae7e7] hover:text-[#bb0011] transition-colors duration-200" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white px-5 py-2 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity">
+                    New Order
+                </button>
+<div class="flex items-center gap-2 px-4 border-l border-surface-container-high">
+<button class="p-2 text-secondary hover:bg-surface-container-low rounded-lg transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="p-2 text-secondary hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+<div class="flex items-center gap-3 pl-4">
+<img alt="User profile avatar" class="w-9 h-9 rounded-full object-cover border-2 border-primary/10" data-alt="Close up portrait of a professional businessman in a tailored suit with a neutral confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPrCk3b9XI36gP_bxPElpaxxk0Xi7lHTunuehnOLs31wkWy1dd0Sdtjq8mEdBy9difEpHMWsVVnLY5Oup8varGtiPlpnC9py_UUrRBc7Fhfqv83Xm80Eitb5pUpdmBxcX6LXZGmLSin92O9z5s5WlUbkZapIXoblbkc2rnryNaVMQhdRWXJnHhpHJz7VX6x_wTUXdsFFZkvD1FVOBTuAx6luXPfUDwfJvGUEYJbj_W9qMw82N5HTaF6w2d5dxtITq8s4Mk3tPjCHRH"/>
+<div class="hidden lg:block text-left">
+<p class="text-xs font-bold leading-none">Marcus Thorne</p>
+<p class="text-[10px] text-secondary font-medium">Enterprise Admin</p>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 p-8 overflow-y-auto space-y-8">
+<!-- Page Header Asymmetric Layout -->
+<div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+<div class="max-w-2xl">
+<h2 class="text-5xl font-['Manrope'] font-extrabold tracking-tighter text-on-surface mb-2">Credit Account</h2>
+<p class="text-secondary text-lg font-medium">Manage your enterprise credit line, view utilization, and settle outstanding balances.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-3 bg-surface-container-high text-on-surface rounded-xl font-bold text-sm transition-all hover:bg-surface-container-highest">
+                        Statement Download
+                    </button>
+<button class="px-6 py-3 btn-primary-gradient text-white rounded-xl font-bold text-sm shadow-xl shadow-primary/30 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_circle">add_circle</span>
+                        Increase Limit
+                    </button>
+</div>
+</div>
+<!-- Bento Grid - Financial Overview -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Primary Utilization Card -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-[2rem] p-8 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div class="flex justify-between items-start mb-8">
+<div>
+<span class="text-xs font-bold text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-full">Available Credit</span>
+<h3 class="text-6xl font-['Manrope'] font-black mt-4">$42,500.00</h3>
+</div>
+<div class="text-right">
+<p class="text-sm font-medium text-secondary">Utilization Rate</p>
+<p class="text-2xl font-bold text-on-surface">75%</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between text-sm font-bold">
+<span class="text-secondary">Used: $12,500.00</span>
+<span class="text-on-surface">Total: $55,000.00</span>
+</div>
+<div class="w-full h-4 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full btn-primary-gradient w-3/4 rounded-full relative">
+<div class="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.3)_50%,transparent_100%)] animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Metrics Cards -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="flex-1 bg-surface-container-low rounded-[1.5rem] p-6 flex flex-col justify-center">
+<span class="material-symbols-outlined text-primary mb-3 text-3xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+<p class="text-xs font-bold text-secondary uppercase tracking-widest">Total Limit</p>
+<p class="text-3xl font-black text-on-surface">$55,000.00</p>
+</div>
+<div class="flex-1 bg-surface-container-low rounded-[1.5rem] p-6 flex flex-col justify-center">
+<span class="material-symbols-outlined text-primary mb-3 text-3xl" data-icon="event_upcoming">event_upcoming</span>
+<p class="text-xs font-bold text-secondary uppercase tracking-widest">Next Due Date</p>
+<p class="text-3xl font-black text-on-surface">Oct 24, 2023</p>
+</div>
+</div>
+</div>
+<!-- Insights Callout -->
+<div class="bg-[#bb0011]/5 border-l-4 border-primary p-6 rounded-r-2xl flex items-center gap-6">
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white" data-icon="lightbulb">lightbulb</span>
+</div>
+<div>
+<h4 class="font-bold text-primary">Credit Tip: Optimizing Your Score</h4>
+<p class="text-secondary text-sm">Maintaining a utilization rate below <span class="font-bold text-on-surface">30%</span> consistently demonstrates strong financial health to creditors. You're currently at 75%. Consider a partial repayment to lower this ratio.</p>
+</div>
+</div>
+<!-- Transaction Table Section -->
+<section class="bg-surface-container-lowest rounded-[2rem] overflow-hidden">
+<div class="p-8 border-b border-surface-container-low flex justify-between items-center">
+<h3 class="text-2xl font-bold font-['Manrope']">Payment History</h3>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-all">
+<span class="material-symbols-outlined text-secondary" data-icon="filter_list">filter_list</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-lg transition-all">
+<span class="material-symbols-outlined text-secondary" data-icon="download">download</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Date</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Description</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Category</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Reference No.</th>
+<th class="px-8 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<!-- Sept Row -->
+<tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer group">
+<td class="px-8 py-6 font-medium text-sm">Sept 30, 2023</td>
+<td class="px-8 py-6">
+<div class="font-bold text-on-surface">Sept Monthly Balance</div>
+<div class="text-xs text-secondary">Automatic Billing Cycle</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-bold uppercase tracking-tight">Recurring</span>
+</td>
+<td class="px-8 py-6 font-mono text-xs text-secondary">#VG-9920-X1</td>
+<td class="px-8 py-6 text-right font-black text-on-surface">$4,250.00</td>
+</tr>
+<!-- Aug Row -->
+<tr class="bg-surface-container-low/10 hover:bg-surface-container-low/30 transition-colors cursor-pointer">
+<td class="px-8 py-6 font-medium text-sm">Aug 31, 2023</td>
+<td class="px-8 py-6">
+<div class="font-bold text-on-surface">Aug Monthly Balance</div>
+<div class="text-xs text-secondary">Automatic Billing Cycle</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-bold uppercase tracking-tight">Recurring</span>
+</td>
+<td class="px-8 py-6 font-mono text-xs text-secondary">#VG-8812-P5</td>
+<td class="px-8 py-6 text-right font-black text-on-surface">$3,980.00</td>
+</tr>
+<!-- July Row -->
+<tr class="hover:bg-surface-container-low/30 transition-colors cursor-pointer">
+<td class="px-8 py-6 font-medium text-sm">July 31, 2023</td>
+<td class="px-8 py-6">
+<div class="font-bold text-on-surface">July Monthly Balance</div>
+<div class="text-xs text-secondary">Automatic Billing Cycle</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-surface-container-high rounded-full text-[10px] font-bold uppercase tracking-tight">Recurring</span>
+</td>
+<td class="px-8 py-6 font-mono text-xs text-secondary">#VG-7704-R9</td>
+<td class="px-8 py-6 text-right font-black text-on-surface">$5,120.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 text-center">
+<button class="text-primary font-bold text-sm hover:underline">View All Transactions</button>
+</div>
+</section>
+<!-- Elite Business Perks (Asymmetric Feature Section) -->
+<section class="mt-16">
+<div class="mb-8">
+<h3 class="text-3xl font-black font-['Manrope'] tracking-tighter">Elite Business Perks</h3>
+<div class="w-16 h-1 bg-primary mt-2"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Perk 1 -->
+<div class="bg-surface-container-low rounded-[2rem] p-8 flex flex-col gap-4 hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="public">public</span>
+</div>
+<h5 class="text-xl font-bold font-['Manrope']">Global Access</h5>
+<p class="text-secondary text-sm leading-relaxed">Seamless procurement across 40+ international regions with local currency settlement and zero cross-border fees.</p>
+</div>
+<!-- Perk 2 -->
+<div class="bg-surface-container-low rounded-[2rem] p-8 flex flex-col gap-4 hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="verified_user">verified_user</span>
+</div>
+<h5 class="text-xl font-bold font-['Manrope']">24/7 VIP Support</h5>
+<p class="text-secondary text-sm leading-relaxed">Dedicated account managers available around the clock to handle priority logistics and financial inquiries.</p>
+</div>
+<!-- Perk 3 -->
+<div class="bg-surface-container-low rounded-[2rem] p-8 flex flex-col gap-4 hover:translate-y-[-4px] transition-transform duration-300">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="trending_up">trending_up</span>
+</div>
+<h5 class="text-xl font-bold font-['Manrope']">Dynamic Scaling</h5>
+<p class="text-secondary text-sm leading-relaxed">Automated credit limit adjustments based on your quarterly order volume and payment performance history.</p>
+</div>
+</div>
+</section>
+<!-- Footer Tonal Layer -->
+<footer class="pt-12 pb-8 text-center text-secondary border-t border-surface-container-low">
+<p class="text-xs font-medium">© 2023 Vanguard Architecture Enterprise Portal. Confidential &amp; Proprietary.</p>
+</footer>
+</main>
+</div>
+</body></html>

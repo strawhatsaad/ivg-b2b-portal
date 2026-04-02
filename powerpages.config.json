@@ -1,0 +1,9 @@
+{
+  "siteName": "IVG B2B Portal",
+  "defaultLandingPage": "index.html",
+  "compiledPath": "./out",
+  "bundleFilePatterns": [
+    "ivg-ext-css-*",
+    "ivg-ext-chunks-*"
+  ]
+}
