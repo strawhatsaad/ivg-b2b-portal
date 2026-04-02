@@ -3,11 +3,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { getTicketStatusLabel, getTicketStatusClass, getTicketPriority, getTicketCategory } from '@/lib/mock-db';
-import { getTickets } from '@/lib/mock-store';
+import { useTickets } from '@/hooks/useTickets';
 
 export default function SupportPage() {
   const [filter, setFilter] = useState<'all' | 'open' | 'resolved'>('all');
-  const allTickets = getTickets();
+  const { tickets: allTickets, loading } = useTickets();
   const openCount = allTickets.filter(t => t.statecode === 0).length;
   const resolvedCount = allTickets.filter(t => t.statecode === 1).length;
 

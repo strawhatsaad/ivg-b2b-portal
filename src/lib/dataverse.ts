@@ -14,7 +14,7 @@ let cachedToken: { token: string; expiresAt: number } | null = null;
  * Acquire a bearer token via OAuth 2.0 Client Credentials grant.
  * Caches the token until 60s before expiry.
  */
-async function getAccessToken(): Promise<string> {
+export async function getAccessToken(): Promise<string> {
   // Return cached token if still valid (with 60s buffer)
   if (cachedToken && Date.now() < cachedToken.expiresAt - 60_000) {
     return cachedToken.token;

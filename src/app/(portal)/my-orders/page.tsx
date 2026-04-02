@@ -3,17 +3,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { MOCK_ANALYTICS, getOrderStatusClass } from '@/lib/mock-db';
-import { getOrders } from '@/lib/mock-store';
+import { useOrders } from '@/hooks/useOrders';
 
 const STATUSES = ['All', 'Shipped', 'Processing', 'Delivered', 'Cancelled', 'Submitted'];
 
 export default function MyOrdersPage() {
   const [statusFilter, setStatusFilter] = useState('All');
-  const allOrders = getOrders();
+  const { orders } = useOrders();
 
   const filtered = statusFilter === 'All'
-    ? allOrders
-    : allOrders.filter(o => o.ivg_status === statusFilter);
+    ? orders
+    : orders.filter(o => o.ivg_status === statusFilter);
 
   return (
     <div className="portal-page">
@@ -32,7 +32,7 @@ export default function MyOrdersPage() {
       <div className="stats-row">
         <div className="stat-card">
           <span className="stat-label">Total Orders</span>
-          <span className="stat-value">{allOrders.length}</span>
+          <span className="stat-value">{orders.length}</span>
           <span className="stat-change stat-change--up">+10% vs LW</span>
         </div>
         <div className="stat-card">

@@ -1,9 +1,17 @@
 'use client';
 
 import React from 'react';
-import { MOCK_CREDIT, MOCK_PAYMENTS } from '@/lib/mock-db';
+import { MOCK_PAYMENTS } from '@/lib/mock-db';
+import { useAccount } from '@/hooks/useAccount';
 
 export default function CreditBillingPage() {
+  const { account } = useAccount();
+  const limit = account?.creditlimit ?? 50000;
+  const available = account?.creditlimit ?? limit; // Fallback to full limit if order lines are not calculated yet
+  const utilizedPct = limit > 0 ? ((limit - available) / limit) * 100 : 0;
+  const totalUsed = limit - available;
+  const nextBillingDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString();
+  const paymentTerms = account?.['paymenttermscode@OData.Community.Display.V1.FormattedValue'] || 'Net 30';
   return (
     <div className="portal-page">
       <header className="page-header">
@@ -21,31 +29,31 @@ export default function CreditBillingPage() {
       <div className="credit-overview">
         <div className="credit-main-card">
           <span className="credit-main-label">Available Credit</span>
-          <h2 className="credit-main-amount">£{MOCK_CREDIT.availableCredit.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</h2>
+          <h2 className="credit-main-amount">£{available.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</h2>
           <div className="credit-main-bar">
-            <div className="credit-main-bar-fill" style={{ width: `${MOCK_CREDIT.utilization}%` }} />
+            <div className="credit-main-bar-fill" style={{ width: `${utilizedPct}%` }} />
           </div>
           <div className="credit-main-meta">
-            <span>Used: £{MOCK_CREDIT.totalUsed.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</span>
-            <span>Total: £{MOCK_CREDIT.totalLimit.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</span>
+            <span>Used: £{totalUsed.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</span>
+            <span>Total: £{limit.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</span>
           </div>
         </div>
         <div className="credit-side-cards">
           <div className="credit-side-card">
             <span className="credit-side-label">Utilization</span>
-            <span className="credit-side-value">{MOCK_CREDIT.utilization}%</span>
+            <span className="credit-side-value">{utilizedPct.toFixed(0)}%</span>
           </div>
           <div className="credit-side-card">
             <span className="credit-side-label">Total Limit</span>
-            <span className="credit-side-value">£{MOCK_CREDIT.totalLimit.toLocaleString('en-GB')}</span>
+            <span className="credit-side-value">£{limit.toLocaleString('en-GB')}</span>
           </div>
           <div className="credit-side-card">
             <span className="credit-side-label">Next Billing</span>
-            <span className="credit-side-value">{new Date(MOCK_CREDIT.nextBillingDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+            <span className="credit-side-value">{new Date(nextBillingDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
           </div>
           <div className="credit-side-card">
             <span className="credit-side-label">Payment Terms</span>
-            <span className="credit-side-value">{MOCK_CREDIT.paymentTerms}</span>
+            <span className="credit-side-value">{paymentTerms}</span>
           </div>
         </div>
       </div>
@@ -55,7 +63,7 @@ export default function CreditBillingPage() {
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ivg-primary)" strokeWidth="2"><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>
         <div>
           <strong>Credit Tip: Optimizing Your Score</strong>
-          <p className="text-secondary">Maintaining a utilization rate below 50% consistently demonstrates strong financial health to creditors. You&apos;re currently at {MOCK_CREDIT.utilization}%. Consider a partial repayment to lower it.</p>
+          <p className="text-secondary">Maintaining a utilization rate below 50% consistently demonstrates strong financial health to creditors. You&apos;re currently at {utilizedPct.toFixed(0)}%. Consider a partial repayment to lower it.</p>
         </div>
       </div>
 

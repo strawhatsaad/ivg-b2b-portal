@@ -1,4 +1,4 @@
-const API_BASE = '/_api';
+const API_BASE = '/api';
 
 /**
  * Fetch the anti-forgery token (reused from auth-actions.ts, cached per session)

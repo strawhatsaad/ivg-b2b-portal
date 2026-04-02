@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { MOCK_ACCOUNT } from '@/lib/mock-db';
+import { useAccount } from '@/hooks/useAccount';
 
 export default function MyAccountPage() {
   const { user } = useAuth();
+  const { account } = useAccount();
 
   return (
     <div className="portal-page">
@@ -35,19 +36,19 @@ export default function MyAccountPage() {
             <div className="detail-grid">
               <div>
                 <span className="detail-label">Full Name</span>
-                <span className="detail-value">{user?.firstName} {user?.lastName}</span>
+                <span className="detail-value">{account?.fullname || `${user?.firstName} ${user?.lastName}`}</span>
               </div>
               <div>
                 <span className="detail-label">Email</span>
-                <span className="detail-value">{user?.userName}</span>
+                <span className="detail-value">{account?.emailaddress1 || user?.userName}</span>
               </div>
               <div>
                 <span className="detail-label">Phone</span>
-                <span className="detail-value">+44 7XXX XXX 123</span>
+                <span className="detail-value">{account?.telephone1 || '—'}</span>
               </div>
               <div>
                 <span className="detail-label">Role</span>
-                <span className="detail-value">Account Administrator</span>
+                <span className="detail-value">Primary Contact</span>
               </div>
             </div>
           </div>
@@ -59,29 +60,29 @@ export default function MyAccountPage() {
           <div className="detail-grid">
             <div>
               <span className="detail-label">Company Name</span>
-              <span className="detail-value">{MOCK_ACCOUNT.name}</span>
+              <span className="detail-value">{account?.['_parentcustomerid_value@OData.Community.Display.V1.FormattedValue'] || '—'}</span>
             </div>
             <div>
-              <span className="detail-label">Account ID</span>
-              <span className="detail-value" style={{ fontFamily: 'monospace', fontSize: 12 }}>{MOCK_ACCOUNT.accountid.slice(0, 8)}...</span>
+              <span className="detail-label">Contact ID</span>
+              <span className="detail-value" style={{ fontFamily: 'monospace', fontSize: 12 }}>{account?.contactid?.slice(0, 8) || '—'}...</span>
             </div>
             <div>
               <span className="detail-label">Customer Tier</span>
               <span className="detail-value">
-                <span className="tier-badge tier-badge--gold">{MOCK_ACCOUNT.ivg_customertier}</span>
+                <span className="tier-badge tier-badge--gold">Gold</span>
               </span>
             </div>
             <div>
               <span className="detail-label">Customer Type</span>
-              <span className="detail-value">{MOCK_ACCOUNT.ivg_customertype}</span>
+              <span className="detail-value">B2B Partner</span>
             </div>
             <div>
               <span className="detail-label">Credit Limit</span>
-              <span className="detail-value">£{MOCK_ACCOUNT.ivg_creditlimit?.toLocaleString('en-GB')}</span>
+              <span className="detail-value">£{account?.creditlimit?.toLocaleString('en-GB') || '0'}</span>
             </div>
             <div>
               <span className="detail-label">Available Credit</span>
-              <span className="detail-value">£{MOCK_ACCOUNT.ivg_creditavailable?.toLocaleString('en-GB')}</span>
+              <span className="detail-value">£{account?.creditlimit?.toLocaleString('en-GB') || '0'}</span>
             </div>
           </div>
 

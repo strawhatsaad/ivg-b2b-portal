@@ -2,8 +2,10 @@
 
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { MOCK_PRODUCTS, MOCK_ORDERS } from '@/lib/mock-db';
-import { createOrder } from '@/lib/mock-store';
+import { useProducts } from '@/hooks/useProducts';
+import { useOrders } from '@/hooks/useOrders';
+import { apiCreate } from '@/lib/api';
+import { useAuth } from '@/hooks/useAuth';
 
 interface CartItem {
   productId: string;
@@ -25,19 +27,23 @@ export default function PlaceOrderPage() {
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
   const ITEMS_PER_PAGE = 6;
 
+  const { products } = useProducts();
+  const { orders } = useOrders();
+  const { user } = useAuth();
+
   const filteredProducts = useMemo(() => {
-    if (!searchQuery.trim()) return MOCK_PRODUCTS;
+    if (!searchQuery.trim()) return products;
     const q = searchQuery.toLowerCase();
-    return MOCK_PRODUCTS.filter(p =>
+    return products.filter(p =>
       p.name.toLowerCase().includes(q) ||
       (p.ivg_flavour && p.ivg_flavour.toLowerCase().includes(q)) ||
       (p.productnumber && p.productnumber.toLowerCase().includes(q)) ||
       (p.ivg_productline && p.ivg_productline.toLowerCase().includes(q))
     );
-  }, [searchQuery]);
+  }, [searchQuery, products]);
 
   const productLines = useMemo(() => {
-    const groups: Record<string, typeof MOCK_PRODUCTS> = {};
+    const groups: Record<string, typeof products> = {};
     filteredProducts.forEach(p => {
       const line = p.ivg_productline || 'Other';
       if (!groups[line]) groups[line] = [];
@@ -66,7 +72,8 @@ export default function PlaceOrderPage() {
     return Object.entries(cart)
       .filter(([, qty]) => qty > 0)
       .map(([pid, qty]) => {
-        const product = MOCK_PRODUCTS.find(p => p.productid === pid)!;
+        const product = products.find(p => p.productid === pid);
+        if (!product) return null;
         return {
           productId: pid,
           name: product.name,
@@ -74,8 +81,8 @@ export default function PlaceOrderPage() {
           unitPrice: product.price || 0,
           vatRate: product.ivg_vatrate || 20,
         };
-      });
-  }, [cart]);
+      }).filter(Boolean) as CartItem[];
+  }, [cart, products]);
 
   const totals = useMemo(() => {
     let net = 0;
@@ -93,32 +100,50 @@ export default function PlaceOrderPage() {
   };
 
   const nextPONumber = useMemo(() => {
-    const pos = MOCK_ORDERS.map(o => o.ivg_ponumber).filter(Boolean) as string[];
+    const pos = orders.map(o => o.ivg_ponumber).filter(Boolean) as string[];
     let maxNum = 0;
     pos.forEach(po => {
       const match = po.match(/-0*(\d+)$/);
       if (match) maxNum = Math.max(maxNum, parseInt(match[1], 10));
     });
     return `PO-DEV-2026-${String(maxNum + 1).padStart(3, '0')}`;
-  }, []);
+  }, [orders]);
 
   const handleSubmit = async () => {
     setSubmitting(true);
-    await new Promise(r => setTimeout(r, 1500));
 
-    const order = createOrder({
-      lines: cartItems.map(item => ({
-        productId: item.productId,
-        productName: item.name,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
-        vatRate: item.vatRate,
-      })),
-      poNumber: nextPONumber,
-      notes: notes || undefined,
-    });
+    try {
+      const orderId = await apiCreate('ivg_orderdrafts', {
+        ivg_ponumber: nextPONumber,
+        ivg_customernotes: notes || undefined,
+        ivg_status: 'Submitted',
+        ivg_totalgross: totals.gross,
+        ivg_totalnetamount: totals.net,
+        ivg_vatamount: totals.vat,
+        ...(user?.accountId ? { 'ivg_account@odata.bind': `/accounts(${user.accountId})` } : {})
+      });
 
-    router.push(`/order-confirmation?id=${order.ivg_orderdraftid}`);
+      // Quick fallback: if we can't deep-insert, wait and then sequentially create lines
+      for (const item of cartItems) {
+        await apiCreate('ivg_orderdraftlines', {
+          ivg_productname: item.name,
+          ivg_quantity: item.quantity,
+          ivg_unitprice: item.unitPrice,
+          ivg_netamount: item.quantity * item.unitPrice,
+          ivg_vatpercent: item.vatRate,
+          ivg_vatamount: (item.quantity * item.unitPrice) * (item.vatRate / 100),
+          ivg_grossamount: (item.quantity * item.unitPrice) * (1 + item.vatRate / 100),
+          'ivg_OrderDraft@odata.bind': `/ivg_orderdrafts(${orderId})`,
+          'ivg_Product@odata.bind': `/products(${item.productId})`
+        }).catch(err => console.error('Line item creation failed', err));
+      }
+
+      router.push(`/order-confirmation?id=${orderId}`);
+    } catch (err: any) {
+      console.error(err);
+      alert('Failed to submit order: ' + err.message);
+      setSubmitting(false);
+    }
   };
 
   return (

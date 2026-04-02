@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { createTicket } from '@/lib/mock-store';
+import { apiCreate } from '@/lib/api';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function NewSupportCasePage() {
   const router = useRouter();
@@ -19,20 +20,31 @@ export default function NewSupportCasePage() {
   const update = (field: string, value: string) =>
     setForm(prev => ({ ...prev, [field]: value }));
 
+  const { user } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    await new Promise(r => setTimeout(r, 1200));
 
-    const ticket = createTicket({
-      title: form.title,
-      category: form.category,
-      priority: form.priority,
-      description: form.description,
-      orderRef: form.orderRef || undefined,
-    });
+    try {
+      const casetypecode = form.category === 'delivery' ? 1 :
+                           form.category === 'compliance' ? 2 :
+                           form.category === 'billing' ? 3 :
+                           form.category === 'technical' ? 4 : 0;
 
-    router.push(`/support/${ticket.incidentid}`);
+      const incidentId = await apiCreate('incidents', {
+        title: form.title,
+        description: form.description + (form.orderRef ? `\n\nRelated Order: ${form.orderRef}` : ''),
+        casetypecode: casetypecode,
+        ...(user?.accountId ? { 'customerid_account@odata.bind': `/accounts(${user.accountId})` } : {})
+      });
+
+      router.push(`/support/${incidentId}`);
+    } catch (err: any) {
+      console.error(err);
+      alert('Failed to submit case: ' + err.message);
+      setSubmitting(false);
+    }
   };
 
   return (

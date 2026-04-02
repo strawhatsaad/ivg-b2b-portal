@@ -3,16 +3,24 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
-import { MOCK_CREDIT, MOCK_ANALYTICS, getOrderStatusClass, getTicketStatusLabel, getTicketStatusClass } from '@/lib/mock-db';
-import { getOrders, getTickets } from '@/lib/mock-store';
+import { useOrders } from '@/hooks/useOrders';
+import { useTickets } from '@/hooks/useTickets';
+import { useAccount } from '@/hooks/useAccount';
+import { MOCK_ANALYTICS, getOrderStatusClass, getTicketStatusLabel, getTicketStatusClass } from '@/lib/mock-db';
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { orders } = useOrders();
+  const { tickets } = useTickets();
+  const { account } = useAccount();
+
   const displayName = user?.firstName || user?.userName || 'Partner';
-  const allOrders = getOrders();
-  const allTickets = getTickets();
-  const recentOrders = allOrders.slice(0, 3);
-  const openTickets = allTickets.filter(t => t.statecode === 0).slice(0, 2);
+  const recentOrders = orders.slice(0, 3);
+  const openTickets = tickets.filter(t => t.statecode === 0).slice(0, 2);
+
+  const limit = account?.ivg_creditlimit ?? 50000;
+  const available = account?.ivg_creditavailable ?? 24500;
+  const utilized = limit > 0 ? ((limit - available) / limit) * 100 : 0;
 
   return (
     <div className="portal-page">
@@ -50,17 +58,17 @@ export default function DashboardPage() {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--ivg-primary)"><path d="M21 7.28V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.34 1-.98 1-1.72V9c0-.74-.41-1.38-1-1.72zM20 9v6h-4V9h4zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/></svg>
           </div>
           <span className="credit-label">Available Credit</span>
-          <h3 className="credit-amount">£{MOCK_CREDIT.availableCredit.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</h3>
+          <h3 className="credit-amount">£{available.toLocaleString('en-GB', { minimumFractionDigits: 2 })}</h3>
           <div className="credit-util">
             <div className="credit-util-row">
               <span>Utilization</span>
-              <strong>{MOCK_CREDIT.utilization}%</strong>
+              <strong>{utilized.toFixed(0)}%</strong>
             </div>
             <div className="credit-bar">
-              <div className="credit-bar-fill" style={{ width: `${MOCK_CREDIT.utilization}%` }} />
+              <div className="credit-bar-fill" style={{ width: `${utilized}%` }} />
             </div>
             <div className="credit-util-row">
-              <span>Total Limit: <strong>£{MOCK_CREDIT.totalLimit.toLocaleString('en-GB')}</strong></span>
+              <span>Total Limit: <strong>£{limit.toLocaleString('en-GB')}</strong></span>
               <Link href="/credit-billing" className="credit-link">View History</Link>
             </div>
           </div>

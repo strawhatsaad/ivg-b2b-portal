@@ -4,7 +4,8 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getOrderStatusClass } from '@/lib/mock-db';
-import { getOrderById, getOrderLines } from '@/lib/mock-store';
+import { apiGetById, apiGet } from '@/lib/api';
+import { OrderDraft, OrderDraftLine } from '@/lib/types';
 
 const STEPS = ['Submitted', 'Confirmed', 'Processing', 'Shipped', 'Delivered'];
 
@@ -19,8 +20,27 @@ export default function OrderDetailPage() {
   const params = useParams();
   const id = params.id as string;
 
-  const order = id ? getOrderById(id) : undefined;
-  const lines = id ? getOrderLines(id) : [];
+  const [order, setOrder] = React.useState<OrderDraft | undefined>(undefined);
+  const [lines, setLines] = React.useState<OrderDraftLine[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!id) return;
+    Promise.all([
+      apiGetById<OrderDraft>('ivg_orderdrafts', id),
+      apiGet<OrderDraftLine>('ivg_orderdraftlines', `$filter=_ivg_orderdraft_value eq '${id}'`)
+    ])
+      .then(([fetchedOrder, fetchedLines]) => {
+        setOrder(fetchedOrder);
+        setLines(fetchedLines);
+      })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return <div className="portal-page" style={{ padding: 60, textAlign: 'center' }}>Loading...</div>;
+  }
 
   if (!order) {
     return (

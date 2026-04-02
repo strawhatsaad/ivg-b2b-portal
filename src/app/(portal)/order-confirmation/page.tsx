@@ -2,13 +2,35 @@
 
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { getOrderById, getOrderLines } from '@/lib/mock-store';
+import { apiGetById, apiGet } from '@/lib/api';
+import { OrderDraft, OrderDraftLine } from '@/lib/types';
+import { useEffect, useState } from 'react';
 
 export default function OrderConfirmationPage() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('id') || '';
-  const order = orderId ? getOrderById(orderId) : undefined;
-  const lines = orderId ? getOrderLines(orderId) : [];
+  const [order, setOrder] = useState<OrderDraft | undefined>(undefined);
+  const [lines, setLines] = useState<OrderDraftLine[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!orderId) {
+      setLoading(false);
+      return;
+    }
+    Promise.all([
+      apiGetById<OrderDraft>('ivg_orderdrafts', orderId),
+      apiGet<OrderDraftLine>('ivg_orderdraftlines', `$filter=_ivg_orderdraft_value eq '${orderId}'`)
+    ])
+      .then(([fetchedOrder, fetchedLines]) => {
+        setOrder(fetchedOrder);
+        setLines(fetchedLines);
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [orderId]);
+
+  if (loading) return <div className="portal-page" style={{ padding: 60, textAlign: 'center' }}>Loading...</div>;
 
   return (
     <div className="portal-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>

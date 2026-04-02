@@ -4,8 +4,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { getTicketStatusLabel, getTicketStatusClass, getTicketPriority, getTicketCategory } from '@/lib/mock-db';
-import { getTicketById, getReplies, addReply } from '@/lib/mock-store';
-import type { Reply } from '@/lib/mock-store';
+import { apiGetById, apiGet, apiCreate } from '@/lib/api';
+import { Incident } from '@/lib/types';
+import { useAuth } from '@/hooks/useAuth';
+
+export interface Reply {
+  id: string;
+  author: string;
+  role: string;
+  date: string;
+  message: string;
+}
 
 export default function SupportDetailPage() {
   const params = useParams();
@@ -14,27 +23,59 @@ export default function SupportDetailPage() {
   const [replies, setReplies] = useState<Reply[]>([]);
   const [sending, setSending] = useState(false);
 
-  const ticket = id ? getTicketById(id) : undefined;
+  const { user } = useAuth();
+  const [ticket, setTicket] = useState<Incident | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
 
-  const loadReplies = useCallback(() => {
-    if (id) {
-      setReplies(getReplies(id));
+  const loadTicketAndReplies = useCallback(async () => {
+    if (!id) return;
+    try {
+      const fetchedTicket = await apiGetById<Incident>('incidents', id);
+      setTicket(fetchedTicket);
+
+      // Fetch annotations (notes) related to this incident
+      // Format response into our Reply format
+      const annotations = await apiGet<any>('annotations', `$filter=_objectid_value eq '${id}'&$orderby=createdon asc`);
+      const mappedReplies = annotations.map((a: any) => ({
+        id: a.annotationid,
+        author: a['_createdby_value@OData.Community.Display.V1.FormattedValue'] || 'System',
+        role: 'Comment',
+        date: a.createdon,
+        message: a.notetext || '',
+      }));
+      setReplies(mappedReplies);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   }, [id]);
 
   useEffect(() => {
-    loadReplies();
-  }, [loadReplies]);
+    loadTicketAndReplies();
+  }, [loadTicketAndReplies]);
 
   const handleSendReply = async () => {
     if (!newReply.trim() || !id) return;
     setSending(true);
-    await new Promise(r => setTimeout(r, 600));
-    addReply(id, newReply.trim());
-    setNewReply('');
-    loadReplies();
-    setSending(false);
+    try {
+      await apiCreate('annotations', {
+        notetext: newReply.trim(),
+        'objectid_incident@odata.bind': `/incidents(${id})`
+      });
+      setNewReply('');
+      await loadTicketAndReplies();
+    } catch (err) {
+      console.error(err);
+      alert('Failed to send reply');
+    } finally {
+      setSending(false);
+    }
   };
+
+  if (loading) {
+    return <div className="portal-page" style={{ padding: 60, textAlign: 'center' }}>Loading case details...</div>;
+  }
 
   if (!ticket) {
     return (
